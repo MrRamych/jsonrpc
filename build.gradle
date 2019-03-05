@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'com.github.mrramych'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.guava:guava:26.0-jre'
+    compile 'org.slf4j:slf4j-simple:1.7.25'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'org.jetbrains:annotations:17.0.0'
+
+    testCompile 'org.testng:testng:6.14.3'
+    testCompile 'org.mockito:mockito-core:2.+'
+    testCompile 'org.assertj:assertj-core:3.11.1'
+}
+
+test {
+    useTestNG()
+}
