@@ -29,7 +29,7 @@ test {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        maven(MavenPublication) {
             from components.java
         }
     }
@@ -45,4 +45,3 @@ publishing {
         }
     }
 }
-
