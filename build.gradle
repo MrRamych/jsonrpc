@@ -1,15 +1,23 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    id "com.github.ben-manes.versions" version "0.21.0"
 }
-
-group 'com.github.mrramych'
-version '1.0'
 
 sourceCompatibility = 1.11
 
 repositories {
     mavenCentral()
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
 }
 
 dependencies {
@@ -30,18 +38,32 @@ test {
 publishing {
     publications {
         maven(MavenPublication) {
+            group 'com.github.mrramych'
+            artifactId 'jsonrpc'
+            version '1.0.0'
+            
             from components.java
+            artifact sourcesJar
+            artifact javadocJar
         }
     }
 
     repositories {
         maven {
-            System.setProperty("org.gradle.s3.endpoint", "http://storage.yandexcloud.net")
-            url "s3://mrramych-maven/releases"
+            System.setProperty("org.gradle.s3.endpoint", "https://storage.yandexcloud.net")
+            def releasesRepoUrl = "s3://mrramych-maven/releases"
+            def snapshotsRepoUrl = "s3://mrramych-maven/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials(AwsCredentials) {
                 accessKey System.getProperty("awsCredentials.AWSAccessKeyId")
                 secretKey System.getProperty("awsCredentials.AWSSecretKey")
             }
         }
+    }
+}
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
