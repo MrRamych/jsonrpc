@@ -1,9 +1,9 @@
 package com.github.mrramych.jsonrpc;
 
+import com.github.mrramych.json.Json;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import org.testng.annotations.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,11 +17,11 @@ public class JsonRpcHandlerTest {
         final AtomicBoolean wasInvoked = new AtomicBoolean(false);
 
         MethodHandler method = (argument, isNotification) -> {
-            assertThat(argument.getAsString()).isEqualTo("argument");
+            assertThat(argument.getAsString().string).isEqualTo("argument");
             assertThat(isNotification).isFalse();
             assertThat(wasInvoked).withFailMessage("Method was called twice").isFalse();
             wasInvoked.set(true);
-            return new Success(new JsonPrimitive(100));
+            return new Success(Json.number(100));
         };
 
         JsonRpcHandler handler = new JsonRpcHandler();
@@ -41,19 +41,19 @@ public class JsonRpcHandlerTest {
         final AtomicBoolean wasInvoked2 = new AtomicBoolean(false);
 
         MethodHandler method1 = (argument, isNotification) -> {
-            assertThat(argument.getAsString()).isEqualTo("argument1");
+            assertThat(argument.getAsString().string).isEqualTo("argument1");
             assertThat(isNotification).isFalse();
             assertThat(wasInvoked1).withFailMessage("Method 1 was called twice").isFalse();
             wasInvoked1.set(true);
-            return new Success(new JsonPrimitive(10));
+            return new Success(Json.number(10));
         };
 
         MethodHandler method2 = (argument, isNotification) -> {
-            assertThat(argument.getAsString()).isEqualTo("argument2");
+            assertThat(argument.getAsString().string).isEqualTo("argument2");
             assertThat(isNotification).isFalse();
             assertThat(wasInvoked2).withFailMessage("Method 2 was called twice").isFalse();
             wasInvoked2.set(true);
-            return new Success(new JsonPrimitive(30));
+            return new Success(Json.number(30));
         };
 
         JsonRpcHandler handler = new JsonRpcHandler();

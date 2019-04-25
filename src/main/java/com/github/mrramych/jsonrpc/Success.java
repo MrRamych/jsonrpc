@@ -1,6 +1,6 @@
 package com.github.mrramych.jsonrpc;
 
-import com.google.gson.JsonElement;
+import com.github.mrramych.json.Json;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,10 +9,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public final class Success implements Result {
 
     @NotNull
-    public final JsonElement result;
+    public final Json result;
 
     @Contract("null->fail")
-    public Success(@NotNull JsonElement result) {
+    public Success(@NotNull Json result) {
         this.result = checkNotNull(result);
     }
 

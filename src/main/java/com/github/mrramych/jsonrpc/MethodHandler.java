@@ -1,6 +1,6 @@
 package com.github.mrramych.jsonrpc;
 
-import com.google.gson.JsonElement;
+import com.github.mrramych.json.Json;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -8,6 +8,6 @@ import javax.annotation.Nullable;
 public interface MethodHandler {
 
     @NotNull
-    Result handle(@Nullable JsonElement params, boolean isNotification) throws Exception;
+    Result handle(@Nullable Json params, boolean isNotification) throws Exception;
 
 }

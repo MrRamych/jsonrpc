@@ -8,6 +8,9 @@ sourceCompatibility = 1.11
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://mrramych-maven.storage.yandexcloud.net/releases/'
+    }
 }
 
 task sourcesJar(type: Jar) {
@@ -23,12 +26,13 @@ task javadocJar(type: Jar) {
 dependencies {
     compile 'com.google.guava:guava:26.0-jre'
     compile 'org.slf4j:slf4j-simple:1.7.25'
-    compile 'com.google.code.gson:gson:2.8.5'
     compile 'org.jetbrains:annotations:17.0.0'
+    compile 'com.github.mrramych:json:1.1.0'
 
     testCompile 'org.testng:testng:6.14.3'
     testCompile 'org.mockito:mockito-core:2.+'
     testCompile 'org.assertj:assertj-core:3.11.1'
+    testCompile 'com.google.code.gson:gson:2.8.5'
 }
 
 test {
@@ -41,7 +45,7 @@ publishing {
             group 'com.github.mrramych'
             artifactId 'jsonrpc'
             version '1.0.0'
-            
+
             from components.java
             artifact sourcesJar
             artifact javadocJar
@@ -63,7 +67,7 @@ publishing {
 }
 
 javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
+    if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
 }

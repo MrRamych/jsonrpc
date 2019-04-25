@@ -1,6 +1,6 @@
 package com.github.mrramych.jsonrpc;
 
-import com.google.gson.JsonElement;
+import com.github.mrramych.json.Json;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,10 +20,10 @@ public final class Error implements Result {
     @NotNull
     public final String message;
     @Nullable
-    public final JsonElement data;
+    public final Json data;
 
     @Contract("_,null,_->fail")
-    public Error(int code, @NotNull String message, @Nullable JsonElement data) {
+    public Error(int code, @NotNull String message, @Nullable Json data) {
         this.code = code;
         this.message = checkNotNull(message);
         this.data = data;
