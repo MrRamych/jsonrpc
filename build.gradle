@@ -25,7 +25,7 @@ task javadocJar(type: Jar) {
 
 dependencies {
     compile 'com.google.guava:guava:26.0-jre'
-    compile 'org.slf4j:slf4j-simple:1.7.25'
+    compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'org.jetbrains:annotations:17.0.0'
     compile 'com.github.mrramych:json:1.1.0'
 
@@ -33,6 +33,7 @@ dependencies {
     testCompile 'org.mockito:mockito-core:2.+'
     testCompile 'org.assertj:assertj-core:3.11.1'
     testCompile 'com.google.code.gson:gson:2.8.5'
+    testCompile 'org.slf4j:slf4j-simple:1.7.25'
 }
 
 test {
@@ -44,7 +45,7 @@ publishing {
         maven(MavenPublication) {
             group 'com.github.mrramych'
             artifactId 'jsonrpc'
-            version '2.0.0'
+            version '2.1'
 
             from components.java
             artifact sourcesJar
