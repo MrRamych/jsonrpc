@@ -45,7 +45,7 @@ publishing {
         maven(MavenPublication) {
             group 'com.github.mrramych'
             artifactId 'jsonrpc'
-            version '2.1'
+            version '2.2'
 
             from components.java
             artifact sourcesJar
