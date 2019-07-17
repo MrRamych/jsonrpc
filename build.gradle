@@ -25,7 +25,7 @@ task javadocJar(type: Jar) {
 
 dependencies {
     compile 'com.google.guava:guava:28.0-jre'
-    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'org.slf4j:slf4j-api:1.7.26'
     compile 'org.jetbrains:annotations:17.0.0'
     compile 'com.github.mrramych:json:1.2'
 
