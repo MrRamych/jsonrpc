@@ -56,27 +56,36 @@ public class JsonRpcHandler {
 
     public @Nullable
     MethodHandler register(String method, MethodHandler handler) {
+        LOGGER.debug("Registering handler {} for method '{}'", handler, method);
         return handlers.put(checkNotNull(method), checkNotNull(handler));
     }
 
     public @Nullable
     MethodHandler unregister(String method) {
+        LOGGER.debug("Unregistering handler for method '{}'", method);
         return handlers.remove(checkNotNull(method));
     }
 
 
     public String handle(String request) {
+        LOGGER.trace("Received request {}", request);
         try {
             Json json = Json.decode(request);
             if (json.isArray()) {
                 Json result = handleArray(((JsonArray) json));
+                LOGGER.debug("For request '{}' responding with '{}'", request, result == null ? "" : result.toString());
                 return result == null ? "" : result.toString();
             } else if (json.isObject()) {
                 Json result = invokeMethod((JsonObject) json);
+                LOGGER.debug("For request '{}' responding with '{}'", request, result == null ? "" : result.toString());
                 return result == null ? "" : result.toString();
-            } else
+            } else {
+                LOGGER.warn("Received invalid request '{}'", request);
                 return RESPONSE_INTERNAL_ERROR.toString();
+            }
+
         } catch (ParseException e) {
+            LOGGER.warn("Caught exception when parsing request '{}'", request, e);
             return RESPONSE_PARSE_ERROR.toString();
         }
     }
@@ -103,7 +112,6 @@ public class JsonRpcHandler {
         }
 
         return array;
-
     }
 
     /**
@@ -161,6 +169,7 @@ public class JsonRpcHandler {
                 return response;
             }
         } catch (Exception e) {
+            LOGGER.warn("Caught exception while invoking handler", e);
             if (id != null) {
                 return RESPONSE_INTERNAL_ERROR;
             } else {
