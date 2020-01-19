@@ -1,6 +1,6 @@
-package com.github.mrramych.jsonrpc;
+package moe.orangelabs.jsonrpc;
 
-import com.github.mrramych.json.Json;
+import moe.orangelabs.json.Json;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 

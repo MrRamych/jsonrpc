@@ -1,10 +1,10 @@
-package com.github.mrramych.jsonrpc;
+package moe.orangelabs.jsonrpc;
 
-import com.github.mrramych.json.Json;
-import com.github.mrramych.json.ParseException;
-import com.github.mrramych.json.types.JsonArray;
-import com.github.mrramych.json.types.JsonObject;
-import com.github.mrramych.json.types.JsonString;
+import moe.orangelabs.json.Json;
+import moe.orangelabs.json.ParseException;
+import moe.orangelabs.json.types.JsonArray;
+import moe.orangelabs.json.types.JsonObject;
+import moe.orangelabs.json.types.JsonString;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.github.mrramych.json.Json.object;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static moe.orangelabs.json.Json.object;
 
 public class JsonRpcHandler {
 
@@ -70,7 +70,7 @@ public class JsonRpcHandler {
     public String handle(String request) {
         LOGGER.trace("Received request {}", request);
         try {
-            Json json = Json.decode(request);
+            Json json = Json.parse(request);
             if (json.isArray()) {
                 Json result = handleArray(((JsonArray) json));
                 LOGGER.debug("For request '{}' responding with '{}'", request, result == null ? "" : result.toString());
@@ -125,7 +125,7 @@ public class JsonRpcHandler {
         @Nullable Json id = input.getOrDefault("id", null);
         try {
             @NotNull String method;
-            if (input.containsString("method")) {
+            if (input.containsKey("method")) {
                 method = input.getString("method").string;
             } else {
                 return RESPONSE_INVALID_REQUEST;

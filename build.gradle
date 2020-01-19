@@ -1,15 +1,17 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id "com.github.ben-manes.versions" version "0.21.0"
+    id "com.github.ben-manes.versions" version "0.27.0"
+    id 'jacoco'
 }
 
-sourceCompatibility = 1.11
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
     maven {
-        url 'http://mrramych-maven.storage.yandexcloud.net/releases/'
+        url 'https://maven.orangelabs.moe/releases/'
     }
 }
 
@@ -27,12 +29,11 @@ dependencies {
     compile 'com.google.guava:guava:28.0-jre'
     compile 'org.slf4j:slf4j-api:1.7.26'
     compile 'org.jetbrains:annotations:17.0.0'
-    compile 'com.github.mrramych:json:2.0'
+    compile 'moe.orangelabs:json:4.0'
 
     testCompile 'org.testng:testng:6.14.3'
     testCompile 'org.mockito:mockito-core:2.+'
     testCompile 'org.assertj:assertj-core:3.12.2'
-    testCompile 'com.google.code.gson:gson:2.8.5'
     testCompile 'org.slf4j:slf4j-simple:1.7.26'
 }
 
@@ -43,9 +44,11 @@ test {
 publishing {
     publications {
         maven(MavenPublication) {
-            group 'com.github.mrramych'
+            group 'moe.orangelabs'
             artifactId 'jsonrpc'
-            version '2.3'
+            version System.getenv("GITHUB_REF") == null ?
+                    new Date().getTime() + '-SNAPSHOT' :
+                    System.getenv("GITHUB_REF").split("/").last()
 
             from components.java
             artifact sourcesJar
@@ -55,9 +58,9 @@ publishing {
 
     repositories {
         maven {
-            System.setProperty("org.gradle.s3.endpoint", "https://storage.yandexcloud.net")
-            def releasesRepoUrl = "s3://mrramych-maven/releases"
-            def snapshotsRepoUrl = "s3://mrramych-maven/snapshots"
+            System.setProperty("org.gradle.s3.endpoint", "https://maven.orangelabs.moe.storage.yandexcloud.net/")
+            def releasesRepoUrl = "s3://releases"
+            def snapshotsRepoUrl = "s3://snapshots"
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials(AwsCredentials) {
                 accessKey System.getProperty("awsCredentials.AWSAccessKeyId")
@@ -73,4 +76,8 @@ javadoc {
     if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
+}
+
+jacocoTestReport{
+    dependsOn test
 }

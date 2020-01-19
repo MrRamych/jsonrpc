@@ -1,4 +1,4 @@
-package com.github.mrramych.jsonrpc;
+package moe.orangelabs.jsonrpc;
 
 public interface Result {
     boolean isError();
